@@ -1,0 +1,6 @@
+from typing import Protocol
+
+
+class ProtobufMessage(Protocol):
+    def SerializeToString(self) -> bytes: ...
+    def ParseFromString(self, data: bytes) -> "ProtobufMessage": ...

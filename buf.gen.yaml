@@ -1,0 +1,16 @@
+version: v2
+managed:
+  enabled: true
+  override:
+    - file_option: go_package_prefix
+      value: schema-registry
+plugins:
+  - remote: buf.build/protocolbuffers/python
+    out: python/schema_registry
+    opt:
+      - pyi_out=python/schema_registry
+  - local: bin/protoc-gen-python-dto
+    out: python/schema_registry
+  - remote: buf.build/protocolbuffers/go
+    out: go
+    opt: paths=source_relative
