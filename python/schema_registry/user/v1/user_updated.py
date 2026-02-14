@@ -36,4 +36,3 @@ class UserUpdated(BaseModel):
     def from_bytes(cls, data: bytes) -> "UserUpdated":
         msg = userv1.UserUpdated.FromString(data)
         return cls.from_protobuf(msg)
-

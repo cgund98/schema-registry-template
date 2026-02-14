@@ -219,7 +219,6 @@ func generateDTO(gen *protogen.Plugin, file *protogen.File, msg *protogen.Messag
 	g.P("    def from_bytes(cls, data: bytes) -> \"", msg.GoIdent.GoName, "\":")
 	g.P("        msg = ", alias, ".", msg.GoIdent.GoName, ".FromString(data)")
 	g.P("        return cls.from_protobuf(msg)")
-	g.P() // Trailing newline for ruff
 	return nil
 }
 

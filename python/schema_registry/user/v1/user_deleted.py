@@ -27,4 +27,3 @@ class UserDeleted(BaseModel):
     def from_bytes(cls, data: bytes) -> "UserDeleted":
         msg = userv1.UserDeleted.FromString(data)
         return cls.from_protobuf(msg)
-
