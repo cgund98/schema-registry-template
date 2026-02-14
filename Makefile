@@ -3,6 +3,7 @@ build-plugin:
 	@mkdir -p bin
 	@cd go && go build -o ../bin/protoc-gen-python-dto ./cmd/python-dto
 	@cd go && go build -o ../bin/protoc-gen-go-events ./cmd/go-events
+	@cd go && go build -o ../bin/protoc-gen-kotlin-events ./cmd/kotlin-events
 
 .PHONY: generate
 generate: build-plugin
@@ -45,3 +46,27 @@ go-fix:
 go-test:
 	@echo "Testing Go code..."
 	@cd go && go test ./...
+
+.PHONY: kotlin-lint
+kotlin-lint:
+	@echo "Linting Kotlin code..."
+	@cd kotlin && ktlint --relative "**/*.kt" "**/*.kts" "!**/bin/**" "!**/build/**"
+	@cd kotlin && detekt --config gradle-config/detekt.yml --excludes "**/bin/**,**/build/**" 
+
+.PHONY: kotlin-fix
+kotlin-fix:
+	@echo "Fixing Kotlin code..."
+	@cd kotlin && ktlint -F --relative "**/*.kt" "**/*.kts" "!**/bin/**" "!**/build/**"
+
+.PHONY: kotlin-test
+kotlin-test:
+	@echo "Testing Kotlin code..."
+	@cd kotlin && ./gradlew test
+
+.PHONY: kotlin-run-publisher
+kotlin-run-publisher:
+	@cd kotlin && ./gradlew :apps:publisher:run
+
+.PHONY: kotlin-run-consumer
+kotlin-run-consumer:
+	@cd kotlin && ./gradlew :apps:consumer:run

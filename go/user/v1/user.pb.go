@@ -219,8 +219,8 @@ const file_user_v1_user_proto_rawDesc = "" +
 	"\x05email\x18\x03 \x01(\tR\x05email\x12\x17\n" +
 	"\x03age\x18\x04 \x01(\x05B\x05\xaa\x01\x02\b\x01R\x03age:\x13\x8a\xb5\x18\x0fuser.v1.updated\"A\n" +
 	"\vUserDeleted\x12\x1d\n" +
-	"\auser_id\x18\x01 \x01(\tB\x04\x90\xb5\x18\x01R\x06userId:\x13\x8a\xb5\x18\x0fuser.v1.deletedBz\n" +
-	"\vcom.user.v1B\tUserProtoP\x01Z\x1eschema-registry/user/v1;userv1\xa2\x02\x03UXX\xaa\x02\aUser.V1\xca\x02\aUser\\V1\xe2\x02\x13User\\V1\\GPBMetadata\xea\x02\bUser::V1\x92\x03\x02\b\x02b\beditionsp\xe8\a"
+	"\auser_id\x18\x01 \x01(\tB\x04\x90\xb5\x18\x01R\x06userId:\x13\x8a\xb5\x18\x0fuser.v1.deletedB\x98\x01\n" +
+	")com.github.cgund98.schemaregistry.user.v1B\tUserProtoP\x01Z\x1eschema-registry/user/v1;userv1\xa2\x02\x03UXX\xaa\x02\aUser.V1\xca\x02\aUser\\V1\xe2\x02\x13User\\V1\\GPBMetadata\xea\x02\bUser::V1\x92\x03\x02\b\x02b\beditionsp\xe8\a"
 
 var (
 	file_user_v1_user_proto_rawDescOnce sync.Once

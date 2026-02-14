@@ -1,0 +1,52 @@
+name: Kotlin
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+
+      - name: Set up Buf
+        uses: bufbuild/buf-setup-action@v1
+        with:
+          github_token: ${{ github.token }}
+
+      - name: Generate protobuf code
+        run: |
+          make build-plugin
+          buf generate
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
+
+      - name: Install ktlint
+        run: |
+          curl -sSLO https://github.com/pinterest/ktlint/releases/download/1.0.1/ktlint
+          chmod +x ktlint
+          sudo mv ktlint /usr/local/bin/
+
+      - name: Install detekt
+        run: |
+          curl -sSL -o detekt.zip "https://github.com/detekt/detekt/releases/download/v1.23.4/detekt-cli-1.23.4.zip"
+          unzip -o detekt.zip
+          ln -s detekt-cli "$GITHUB_WORKSPACE/detekt-cli-1.23.4/bin/detekt"
+          echo "$GITHUB_WORKSPACE/detekt-cli-1.23.4/bin" >> $GITHUB_PATH
+
+      - name: Lint
+        run: make kotlin-lint
+
+      - name: Test
+        run: make kotlin-test
