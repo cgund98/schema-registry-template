@@ -1,11 +1,11 @@
 import datetime
 import uuid
 
+from google.protobuf.message import Message
 from pydantic import AwareDatetime, BaseModel, ConfigDict
 
 from schema_registry.registry.v1.envelope_pb2 import Envelope as EnvelopeProto
 from schema_registry.registry.v1.event_type import get_event_type
-from schema_registry.registry.v1.message import ProtobufMessage
 
 
 class Envelope(BaseModel):
@@ -61,9 +61,7 @@ class Envelope(BaseModel):
         )
 
     @classmethod
-    def build(
-        cls, *, data_message: ProtobufMessage, source: str, extensions: dict[str, str] | None = None
-    ) -> "Envelope":
+    def build(cls, *, data_message: Message, source: str, extensions: dict[str, str] | None = None) -> "Envelope":
         """
         Build an Envelope from a data message and source.
         """

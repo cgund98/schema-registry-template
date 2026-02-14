@@ -1,18 +1,13 @@
-from typing import Any
-
 from google.protobuf.message import Message
 
 from schema_registry.registry.v1 import envelope_pb2 as registryv1
 
 
-def get_event_type(message: Any) -> str:
+def get_event_type(message: Message) -> str:
     """
     Retrieves the event type from a Protobuf message descriptor.
     """
     # 1. Ensure we are dealing with a generated Protobuf message instance
-    if not isinstance(message, Message):
-        raise TypeError(f"Expected Protobuf Message, got {type(message).__name__}")
-
     options = message.DESCRIPTOR.GetOptions()
 
     # 2. Check if the extension is actually set on this message

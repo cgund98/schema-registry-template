@@ -7,6 +7,7 @@ A demonstration of a **polyglot schema registry** with code-generation utilities
 - **Single source of truth**: Event types and envelopes are defined in `proto/` using Protobuf (edition 2023).
 - **Multi-language output**: [buf](https://buf.build/) generates Go and Python code from the same protos.
 - **Custom codegen**: A local buf plugin (`protoc-gen-python-dto`) generates Python DTO classes for any message that has a valid `event_type` option, including `aggregate_id()` and round-trip serialization helpers.
+- **CloudEvents envelope**: The registry envelope (`registry/v1/envelope.proto`) is fully compatible with the [CloudEvents](https://cloudevents.io/) spec and implements the **structured** format (required context attributes plus a typed `data` payload).
 
 ## Prerequisites
 
@@ -52,6 +53,16 @@ The DTO plugin only generates classes for messages that have:
 
 - `option (registry.v1.event_type) = "…";` set (exactly one such message option).
 - Exactly one field with `[(registry.v1.is_aggregate_id) = true]`. If none or multiple fields have this option, code generation fails with a clear error.
+
+## Envelope and CloudEvents
+
+The `Envelope` message in `proto/registry/v1/envelope.proto` is **fully compatible with the CloudEvents specification** and implements the structured approach:
+
+- Required context attributes: `id`, `source`, `specversion`, `type`.
+- Optional `attributes` map for extension attributes (e.g. correlation IDs), with typed values via `CloudEventAttributeValue`.
+- Payload in `data_oneof` as `binary_data` (bytes) or `text_data` (string), plus optional `time` (RFC 3339 timestamp).
+
+Event payloads (e.g. `UserCreated`) are serialized into the envelope’s data field; the envelope’s `type` is set from the message’s `event_type` option so producers and consumers can route and deserialize by spec.
 
 ## Event types and DTOs
 

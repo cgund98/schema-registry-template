@@ -1,6 +1,6 @@
 from typing import Protocol
 
-from schema_registry.registry.v1.message import ProtobufMessage
+from google.protobuf.message import Message
 
 
 class Payload(Protocol):
@@ -12,7 +12,7 @@ class Payload(Protocol):
 
     def aggregate_id(self) -> str: ...
 
-    def to_protobuf(self) -> ProtobufMessage: ...
+    def to_protobuf(self) -> Message: ...
 
     @classmethod
     def from_protobuf(cls, data: bytes) -> "Payload": ...
