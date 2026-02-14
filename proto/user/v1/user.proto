@@ -1,0 +1,32 @@
+edition = "2023";
+
+package user.v1;
+
+import "google/protobuf/descriptor.proto";
+import "registry/v1/envelope.proto";
+
+option features.field_presence = IMPLICIT;
+
+message UserCreated {
+  option (registry.v1.event_type) = "user.v1.created";
+
+  string user_id = 1 [(registry.v1.is_aggregate_id) = true];
+  string user_name = 2;
+  string email = 3;
+  int32 age = 4 [features.field_presence = EXPLICIT];
+}
+
+message UserUpdated {
+  option (registry.v1.event_type) = "user.v1.updated";
+
+  string user_id = 1 [(registry.v1.is_aggregate_id) = true];
+  string user_name = 2;
+  string email = 3;
+  int32 age = 4 [features.field_presence = EXPLICIT];
+}
+
+message UserDeleted {
+  option (registry.v1.event_type) = "user.v1.deleted";
+
+  string user_id = 1 [(registry.v1.is_aggregate_id) = true];
+}
