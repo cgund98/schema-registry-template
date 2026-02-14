@@ -6,6 +6,7 @@ import "google/protobuf/descriptor.proto";
 import "google/protobuf/timestamp.proto";
 
 option features.field_presence = IMPLICIT;
+option java_package = "com.github.cgund98.schemaregistry.registry.v1";
 
 extend google.protobuf.MessageOptions {
   string event_type = 50001;

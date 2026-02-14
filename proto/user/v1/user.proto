@@ -6,6 +6,7 @@ import "google/protobuf/descriptor.proto";
 import "registry/v1/envelope.proto";
 
 option features.field_presence = IMPLICIT;
+option java_package = "com.github.cgund98.schemaregistry.user.v1";
 
 message UserCreated {
   option (registry.v1.event_type) = "user.v1.created";

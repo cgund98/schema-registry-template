@@ -384,8 +384,8 @@ const file_registry_v1_envelope_proto_rawDesc = "" +
 	"\x04attr:@\n" +
 	"\n" +
 	"event_type\x12\x1f.google.protobuf.MessageOptions\x18ц\x03 \x01(\tR\teventType:G\n" +
-	"\x0fis_aggregate_id\x12\x1d.google.protobuf.FieldOptions\x18҆\x03 \x01(\bR\risAggregateIdB\x9a\x01\n" +
-	"\x0fcom.registry.v1B\rEnvelopeProtoP\x01Z&schema-registry/registry/v1;registryv1\xa2\x02\x03RXX\xaa\x02\vRegistry.V1\xca\x02\vRegistry\\V1\xe2\x02\x17Registry\\V1\\GPBMetadata\xea\x02\fRegistry::V1\x92\x03\x02\b\x02b\beditionsp\xe8\a"
+	"\x0fis_aggregate_id\x12\x1d.google.protobuf.FieldOptions\x18҆\x03 \x01(\bR\risAggregateIdB\xb8\x01\n" +
+	"-com.github.cgund98.schemaregistry.registry.v1B\rEnvelopeProtoP\x01Z&schema-registry/registry/v1;registryv1\xa2\x02\x03RXX\xaa\x02\vRegistry.V1\xca\x02\vRegistry\\V1\xe2\x02\x17Registry\\V1\\GPBMetadata\xea\x02\fRegistry::V1\x92\x03\x02\b\x02b\beditionsp\xe8\a"
 
 var (
 	file_registry_v1_envelope_proto_rawDescOnce sync.Once

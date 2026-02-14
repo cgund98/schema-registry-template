@@ -4,6 +4,8 @@ managed:
   override:
     - file_option: go_package_prefix
       value: schema-registry
+    - file_option: java_package_prefix
+      value: com.github.cgund98.schemaregistry
 plugins:
   - remote: buf.build/protocolbuffers/python
     out: python/schema_registry
@@ -16,3 +18,9 @@ plugins:
     opt: paths=source_relative
   - local: bin/protoc-gen-go-events
     out: go
+  - remote: buf.build/protocolbuffers/java
+    out: kotlin/lib/build/generated/buf
+  - remote: buf.build/protocolbuffers/kotlin
+    out: kotlin/lib/build/generated/buf
+  - local: bin/protoc-gen-kotlin-events
+    out: kotlin/lib/build/generated/buf
