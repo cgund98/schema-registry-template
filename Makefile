@@ -2,6 +2,7 @@
 build-plugin:
 	@mkdir -p bin
 	@cd go && go build -o ../bin/protoc-gen-python-dto ./cmd/python-dto
+	@cd go && go build -o ../bin/protoc-gen-go-events ./cmd/go-events
 
 .PHONY: generate
 generate: build-plugin
@@ -28,3 +29,19 @@ python-fix:
 python-test:
 	@echo "Testing Python code..."
 	@cd python && poetry run pytest .
+
+.PHONY: go-lint
+go-lint:
+	@echo "Linting Go code..."
+	@cd go && test -z "$$(gofmt -l .)" || (echo "Go files need formatting. Run: make go-fix"; gofmt -l .; exit 1)
+	@cd go && golangci-lint run ./...
+
+.PHONY: go-fix
+go-fix:
+	@echo "Fixing Go code..."
+	@cd go && go fmt ./...
+
+.PHONY: go-test
+go-test:
+	@echo "Testing Go code..."
+	@cd go && go test ./...

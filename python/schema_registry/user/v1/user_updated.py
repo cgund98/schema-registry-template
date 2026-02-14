@@ -9,6 +9,9 @@ class UserUpdated(BaseModel):
     email: str
     age: int | None = None
 
+    def event_type(self) -> str:
+        return "user.v1.updated"
+
     def aggregate_id(self) -> str:
         return self.user_id
 
