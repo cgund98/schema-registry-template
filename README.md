@@ -1,10 +1,6 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/cloudevents/spec/main/cloudevents-icon.png" width="100" alt="CloudEvents Logo" />
-</p>
-
 # Polyglot Schema Registry
 
-> **The Single Source of Truth for Event-Driven Microservices.** > Enforce strict contracts and eliminate boilerplate with automated CloudEvents + Protobuf DTO generation for **Python**, **Go**, and **Kotlin**.
+> **The Single Source of Truth for Event-Driven Microservices.** Enforce strict contracts and eliminate boilerplate with automated CloudEvents + Protobuf DTO generation for **Python**, **Go**, and **Kotlin**.
 
 <p align="center">
   <img src="https://img.shields.io/badge/Spec-CloudEvents_1.0-orange?style=for-the-badge" alt="CloudEvents" />
