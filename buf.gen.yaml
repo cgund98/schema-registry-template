@@ -14,3 +14,5 @@ plugins:
   - remote: buf.build/protocolbuffers/go
     out: go
     opt: paths=source_relative
+  - local: bin/protoc-gen-go-events
+    out: go

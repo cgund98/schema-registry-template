@@ -53,14 +53,10 @@ func hasEventTypeOption(msg *protogen.Message) (string, bool) {
 	if opts == nil {
 		return "", false
 	}
-	pm, ok := opts.(proto.Message)
-	if !ok {
+	if !proto.HasExtension(opts, registryv1.E_EventType) {
 		return "", false
 	}
-	if !proto.HasExtension(pm, registryv1.E_EventType) {
-		return "", false
-	}
-	val := proto.GetExtension(pm, registryv1.E_EventType)
+	val := proto.GetExtension(opts, registryv1.E_EventType)
 	s, ok := val.(string)
 	if !ok || strings.TrimSpace(s) == "" {
 		return "", false
@@ -77,14 +73,10 @@ func getAggregateIDField(msg *protogen.Message) (*protogen.Field, error) {
 		if opts == nil {
 			continue
 		}
-		pm, ok := opts.(proto.Message)
-		if !ok {
+		if !proto.HasExtension(opts, registryv1.E_IsAggregateId) {
 			continue
 		}
-		if !proto.HasExtension(pm, registryv1.E_IsAggregateId) {
-			continue
-		}
-		val := proto.GetExtension(pm, registryv1.E_IsAggregateId)
+		val := proto.GetExtension(opts, registryv1.E_IsAggregateId)
 		if b, ok := val.(bool); !ok || !b {
 			continue
 		}
@@ -138,7 +130,35 @@ func pythonPbModule(protoPath string) string {
 	return strings.TrimSuffix(base, filepath.Ext(base)) + "_pb2"
 }
 
-func generateDTO(gen *protogen.Plugin, file *protogen.File, msg *protogen.Message) error {
+// quotePythonString returns a double-quoted Python string literal with escapes.
+func quotePythonString(s string) string {
+	var b strings.Builder
+	b.WriteByte('"')
+	for _, r := range s {
+		switch r {
+		case '\\':
+			b.WriteString(`\\`)
+		case '"':
+			b.WriteString(`\"`)
+		case '\n':
+			b.WriteString(`\n`)
+		case '\r':
+			b.WriteString(`\r`)
+		case '\t':
+			b.WriteString(`\t`)
+		default:
+			if r < 0x20 || r == 0x7f {
+				b.WriteString(fmt.Sprintf("\\x%02x", r))
+			} else {
+				b.WriteRune(r)
+			}
+		}
+	}
+	b.WriteByte('"')
+	return b.String()
+}
+
+func generateDTO(gen *protogen.Plugin, file *protogen.File, msg *protogen.Message, eventType string) error {
 	aggregateField, err := getAggregateIDField(msg)
 	if err != nil {
 		return err
@@ -167,6 +187,9 @@ func generateDTO(gen *protogen.Plugin, file *protogen.File, msg *protogen.Messag
 		name := protoFieldName(field)
 		g.P("    ", name, ": ", pyType)
 	}
+	g.P()
+	g.P("    def event_type(self) -> str:")
+	g.P("        return ", quotePythonString(eventType))
 	g.P()
 	g.P("    def aggregate_id(self) -> str:")
 	if aggregateReturnsStr {
@@ -206,8 +229,7 @@ func generateFile(gen *protogen.Plugin, file *protogen.File) error {
 		if !ok {
 			continue
 		}
-		_ = eventType // reserved for future use (e.g. validation)
-		if err := generateDTO(gen, file, msg); err != nil {
+		if err := generateDTO(gen, file, msg, eventType); err != nil {
 			gen.Error(err)
 			return err
 		}

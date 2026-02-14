@@ -9,6 +9,9 @@ class UserCreated(BaseModel):
     email: str
     age: int | None = None
 
+    def event_type(self) -> str:
+        return "user.v1.created"
+
     def aggregate_id(self) -> str:
         return self.user_id
 
@@ -33,3 +36,4 @@ class UserCreated(BaseModel):
     def from_bytes(cls, data: bytes) -> "UserCreated":
         msg = userv1.UserCreated.FromString(data)
         return cls.from_protobuf(msg)
+

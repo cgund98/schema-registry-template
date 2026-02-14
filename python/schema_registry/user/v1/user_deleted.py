@@ -6,6 +6,9 @@ from schema_registry.user.v1 import user_pb2 as userv1
 class UserDeleted(BaseModel):
     user_id: str
 
+    def event_type(self) -> str:
+        return "user.v1.deleted"
+
     def aggregate_id(self) -> str:
         return self.user_id
 
@@ -24,3 +27,4 @@ class UserDeleted(BaseModel):
     def from_bytes(cls, data: bytes) -> "UserDeleted":
         msg = userv1.UserDeleted.FromString(data)
         return cls.from_protobuf(msg)
+
