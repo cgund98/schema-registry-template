@@ -20,14 +20,10 @@ func hasEventTypeOption(msg *protogen.Message) (string, bool) {
 	if opts == nil {
 		return "", false
 	}
-	pm, ok := opts.(proto.Message)
-	if !ok {
+	if !proto.HasExtension(opts, registryv1.E_EventType) {
 		return "", false
 	}
-	if !proto.HasExtension(pm, registryv1.E_EventType) {
-		return "", false
-	}
-	val := proto.GetExtension(pm, registryv1.E_EventType)
+	val := proto.GetExtension(opts, registryv1.E_EventType)
 	s, ok := val.(string)
 	if !ok || strings.TrimSpace(s) == "" {
 		return "", false
@@ -42,14 +38,10 @@ func getAggregateIDField(msg *protogen.Message) (*protogen.Field, error) {
 		if opts == nil {
 			continue
 		}
-		pm, ok := opts.(proto.Message)
-		if !ok {
+		if !proto.HasExtension(opts, registryv1.E_IsAggregateId) {
 			continue
 		}
-		if !proto.HasExtension(pm, registryv1.E_IsAggregateId) {
-			continue
-		}
-		val := proto.GetExtension(pm, registryv1.E_IsAggregateId)
+		val := proto.GetExtension(opts, registryv1.E_IsAggregateId)
 		if b, ok := val.(bool); !ok || !b {
 			continue
 		}
