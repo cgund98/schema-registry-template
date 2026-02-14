@@ -40,10 +40,10 @@ jobs:
 
       - name: Install detekt
         run: |
-          curl -sSL -o detekt.zip "https://github.com/detekt/detekt/releases/download/v1.23.4/detekt-cli-1.23.8.zip"
+          curl -sSL -o detekt.zip "https://github.com/detekt/detekt/releases/download/v1.23.4/detekt-cli-1.23.4.zip"
           unzip -o detekt.zip
-          ln -s detekt-cli "$GITHUB_WORKSPACE/detekt-cli-1.23.8/bin/detekt"
-          echo "$GITHUB_WORKSPACE/detekt-cli-1.23.8/bin" >> $GITHUB_PATH
+          ln -s detekt-cli "$GITHUB_WORKSPACE/detekt-cli-1.23.4/bin/detekt"
+          echo "$GITHUB_WORKSPACE/detekt-cli-1.23.4/bin" >> $GITHUB_PATH
 
       - name: Lint
         run: make kotlin-lint
